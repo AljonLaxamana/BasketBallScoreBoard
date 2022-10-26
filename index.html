@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
+
+    <title>Score Board</title>
+  </head>
+  <body>
+    <div class="container">
+      <!-- Home Team -->
+      <div class="home-team">
+        <input type="text" class="team-name" value="Home Team" />
+        <div class="score-panel">
+          <p id="home-score">0</p>
+        </div>
+        <div class="score-manipulation">
+          <div class="addition-panel">
+            <button
+              class="btn-add-points buttonTrigger"
+              onclick="addPointHome(1, 'home')"
+              disabled
+            >
+              +1
+            </button>
+            <button
+              class="btn-add-points buttonTrigger"
+              onclick="addPointHome(2, 'home')"
+              disabled
+            >
+              +2
+            </button>
+            <button
+              class="btn-add-points buttonTrigger"
+              onclick="addPointHome(3, 'home')"
+              disabled
+            >
+              +3
+            </button>
+          </div>
+          <div class="subtraction-panel buttonTrigger">
+            <button
+              class="btn-subtract-points buttonTrigger"
+              onclick="subtractPointHome(-1, 'home')"
+              disabled
+            >
+              -1
+            </button>
+            <button
+              class="btn-subtract-points buttonTrigger"
+              onclick="subtractPointHome(-2, 'home')"
+              disabled
+            >
+              -2
+            </button>
+            <button
+              class="btn-subtract-points buttonTrigger"
+              onclick="subtractPointHome(-3, 'home')"
+              disabled
+            >
+              -3
+            </button>
+          </div>
+          <button
+            id="btn-reset-home"
+            class="btn-reset-score"
+            onclick="resetScore('home')"
+            disabled
+          >
+            Reset Score
+          </button>
+        </div>
+      </div>
+      <!-- Action Panel -->
+      <div class="Action-Panel">
+        <div class="time-qtrlength">
+          <input
+            type="number"
+            id="minutes"
+            max="12"
+            min="0"
+            value="12"
+            placeholder="00"
+          />
+          <span class="colon">:</span>
+          <input
+            type="number"
+            id="seconds"
+            max="60"
+            min="0"
+            value="00"
+            placeholder="00"
+          />
+          <span class="colon">:</span>
+          <input
+            type="number"
+            id="milliseconds"
+            max="9"
+            min="0"
+            value="00"
+            placeholder="00"
+          />
+        </div>
+        <div class="time-shotclock">
+          <input
+            type="text"
+            id="shotclock-seconds"
+            max="24"
+            min="0"
+            value="24"
+            placeholder="0"
+            onchange="shotClockRestrict()"
+          />
+        </div>
+        <div class="start-pause-panel">
+          <button id="btn-start" onclick="changeBtnStatus()">Start Game</button>
+        </div>
+      </div>
+      <!-- Away Team -->
+      <div class="away-team">
+        <input type="text" class="team-name" value="Away Team" />
+        <div class="score-panel">
+          <p id="away-score">0</p>
+        </div>
+        <div class="score-manipulation">
+          <div class="addition-panel">
+            <button
+              class="btn-add-points buttonTrigger"
+              onclick="addPointAway(1, 'away')"
+              disabled
+            >
+              +1
+            </button>
+            <button
+              class="btn-add-points buttonTrigger"
+              onclick="addPointAway(2, 'away')"
+              disabled
+            >
+              +2
+            </button>
+            <button
+              class="btn-add-points buttonTrigger"
+              onclick="addPointAway(3, 'away')"
+              disabled
+            >
+              +3
+            </button>
+          </div>
+          <div class="subtraction-panel">
+            <button
+              class="btn-subtract-points buttonTrigger"
+              onclick="subtractPointAway(-1, 'away')"
+              disabled
+            >
+              -1
+            </button>
+            <button
+              class="btn-subtract-points buttonTrigger"
+              onclick="subtractPointAway(-2, 'away')"
+              disabled
+            >
+              -2
+            </button>
+            <button
+              class="btn-subtract-points buttonTrigger"
+              onclick="subtractPointAway(-3, 'away')"
+              disabled
+            >
+              -3
+            </button>
+          </div>
+          <button
+            id="btn-reset-away"
+            onclick="resetScore('away')"
+            class="btn-reset-score"
+            disabled
+          >
+            Reset Score
+          </button>
+        </div>
+      </div>
+    </div>
+    <script src="index.js"></script>
+  </body>
+</html>
