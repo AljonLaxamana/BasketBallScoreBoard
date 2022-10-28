@@ -79,40 +79,35 @@
           <input
             type="number"
             id="minutes"
-            max="12"
-            min="0"
             value="12"
-            placeholder="00"
+            onchange="timeQtrRestict()"
           />
           <span class="colon">:</span>
           <input
             type="number"
             id="seconds"
-            max="60"
-            min="0"
             value="00"
-            placeholder="00"
+            onchange="timeQtrRestict()"
           />
           <span class="colon">:</span>
           <input
             type="number"
             id="milliseconds"
-            max="9"
-            min="0"
             value="00"
-            placeholder="00"
+            onchange="timeQtrRestict()"
           />
         </div>
         <div class="time-shotclock">
           <input
-            type="text"
+            type="number"
             id="shotclock-seconds"
-            max="24"
-            min="0"
             value="24"
-            placeholder="0"
             onchange="shotClockRestrict()"
           />
+        </div>
+        <div class="quarter">
+          <label class="qtr-label">Quarter</label>
+          <input type="text" id="qtr" value="1" disabled />
         </div>
         <div class="start-pause-panel">
           <button id="btn-start" onclick="changeBtnStatus()">Start Game</button>

@@ -52,6 +52,7 @@ button {
   color: whitesmoke;
   font-size: 1rem;
   padding: 10px;
+  font-family: "cursedTimer", "Roboto";
 }
 
 button:disabled {
@@ -122,6 +123,7 @@ div.subtraction-panel > button {
   color: red;
   text-align: center;
   outline: none;
+  font-family: "cursedTimer", "Roboto";
 }
 
 .time-qtrlength > #minutes {
@@ -156,7 +158,7 @@ div.subtraction-panel > button {
 }
 
 .time-shotclock {
-  margin-bottom: 25em;
+  margin-bottom: 10em;
 }
 
 .time-shotclock > input {
@@ -168,7 +170,36 @@ div.subtraction-panel > button {
   font-size: 30px;
   text-align: center;
   outline: none;
+  font-family: "cursedTimer", "Roboto";
 }
+
+.quarter {
+  height: 4rem;
+  background-color: #1f2937;
+  border: 2px solid white;
+  color: green;
+  font-weight: bolder;
+  font-size: 1.5em;
+  text-align: center;
+  outline: none;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
+  margin-bottom: 1em;
+}
+
+.quarter > input {
+  background-color: #1f2937;
+  color: red;
+  width: 3em;
+  font-weight: bolder;
+  font-size: 40px;
+  border: none;
+  text-align: center;
+}
+
 .start-pause-panel {
   margin-bottom: 10rem;
 }

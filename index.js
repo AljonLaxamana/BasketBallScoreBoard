@@ -9,7 +9,7 @@ let awayScoring = 0
 
 function addPointHome(score, team) {
     let game = btnStatus.textContent === PAUSE_GAME;
-    let clock = btnStatus.textContent !== PAUSE_GAME ? shotClock.value : 24;
+    let clock = btnStatus.textContent !== PAUSE_GAME && secondsElem.value ? shotClock.value : 24;
 
     if (score == 1 && team == "home") {
         homeScoring += 1;
@@ -75,13 +75,13 @@ function addPointAway(score, team) {
 
 function subtractPointAway(score, team) {
     let tempScore = awayScoring
-    if (score == -1 && team == "home" && awayScoring > 0) {
+    if (score == -1 && team == "away" && awayScoring > 0) {
         awayScoring -= 1;
     }
-    else if (score == -2 && team == "home" && awayScoring > 0) {
+    else if (score == -2 && team == "away" && awayScoring > 0) {
         awayScoring -= 2;
     }
-    else if (score == -3 && team == "home" && awayScoring > 0) {
+    else if (score == -3 && team == "away" && awayScoring > 0) {
         awayScoring -= 3;
     }
     else {
@@ -107,7 +107,6 @@ function resetScore(team) {
         awayScoring = 0
         awayScore.textContent = 0
     }
-
 }
 
 
@@ -116,7 +115,11 @@ function changeBtnStatus() {
     let buttonSubtractTrigger = document.getElementsByClassName("btn-subtract-points")
     let buttonReset = document.getElementsByClassName("btn-reset-score")
     let clock = 24
-    let game = true;
+    let game = true
+    shotClock.setAttribute("disabled", true)
+    minutesElem.setAttribute("disabled", true)
+    secondsElem.setAttribute("disabled", true)
+    millisecondsElem.setAttribute("disabled", true)
 
     for (let i = 0; i < buttonAddTrigger.length; i++) {
         buttonAddTrigger[i].removeAttribute("disabled");
@@ -129,12 +132,19 @@ function changeBtnStatus() {
     if (btnStatus.textContent === "Start Game") {
         btnStatus.textContent = "Pause Game"
         clock = shotClock.value
-        qtrTimer();
+        qtrTimer()
     }
     else if (btnStatus.textContent === "Pause Game") {
+        shotClock.removeAttribute("disabled", true)
+        minutesElem.removeAttribute("disabled", true)
+        secondsElem.removeAttribute("disabled", true)
+        millisecondsElem.removeAttribute("disabled", true)
+
         clock = shotClock.value;
         game = false;
         btnStatus.textContent = "Resume Game"
+        clearInterval(qtrInterval)
+
         for (let i = 0; i < buttonSubtractTrigger.length; i++) {
             buttonSubtractTrigger[i].removeAttribute("disabled", true);
         }
@@ -146,13 +156,14 @@ function changeBtnStatus() {
         for (let i = 0; i < buttonReset.length; i++) {
             buttonReset[i].setAttribute("disabled", true);
         }
+
         btnStatus.textContent = "Pause Game"
         clock = shotClock.value;
         game = true;
+        qtrTimer()
     }
     if (btnStatus.textContent === "Pause Game") {
         btnStatus.style.color = 'red'
-
     }
     else {
         btnStatus.style.color = 'green'
@@ -165,14 +176,18 @@ let minutesElem = document.getElementById("minutes")
 let secondsElem = document.getElementById("seconds")
 let millisecondsElem = document.getElementById("milliseconds")
 let shotClock = document.getElementById("shotclock-seconds")
+let quarter = document.getElementById("qtr")
 let interval = null
 let qtrInterval = null
+let minutesGlb = minutesElem.value
+let secondsGlb = secondsElem.value
+let millisecondsGlb = millisecondsElem.value
+
 
 function qtrTimer() {
     let minutes = minutesElem.value
     let seconds = secondsElem.value
     let milliseconds = millisecondsElem.value
-
 
     qtrInterval = setInterval(function () {
         milliseconds--
@@ -190,17 +205,31 @@ function qtrTimer() {
             minutesElem.value = minutes
         }
         if (minutes < 0) {
-            clearInterval(qtrInterval)
-            alert("End of Quarter")
-            minutesElem.value = 12
-            secondsElem.value = 0
-            milliseconds.value = 0
-            btnStatus.click()
+            if (quarter.value >= 4 && homeScoring.textContent === awayScoring.textContent) {
+                clearInterval(qtrInterval)
+                alert("Overtime")
+                btnStatus.click()
+                quarter.value = "OT"
+                minutesElem.value = 5
+                secondsElem.value = secondsGlb
+                millisecondsElem.value = millisecondsGlb
+                shotClock.value = 24
+            } else {
+                clearInterval(qtrInterval)
+                alert("End of Quarter")
+                btnStatus.click()
+                quarter.value++
+                minutesElem.value = minutesGlb
+                secondsElem.value = secondsGlb
+                millisecondsElem.value = millisecondsGlb
+                shotClock.value = 24
+            }
         }
+
     }, 10)
 
-
 }
+
 
 function shotclocktimer() {
     shotClock.value--
@@ -209,6 +238,12 @@ function shotclocktimer() {
         btnStatus.click();
         shotClock.value = 24
     }
+    if (minutesElem.value == 0) {
+        if (parseInt(shotClock.value) > parseInt(secondsElem.value)) {
+            shotClock.value = secondsElem.value
+        }
+    }
+
 }
 
 function shotclockreset(clock, game) {
@@ -219,9 +254,39 @@ function shotclockreset(clock, game) {
         interval = setInterval(shotclocktimer, 1000)
 }
 
+
 function shotClockRestrict() {
     if (shotClock.value > 24 || shotClock.value <= 0) {
         alert("Shotclock is only 24 seconds")
         shotClock.value = 24
     }
+
+}
+
+function timeQtrRestict() {
+    if (minutesElem.value == '' || secondsElem.value == '' || millisecondsElem.value == '') {
+        alert("Please don't leave the time input blank")
+        minutesElem.value = minutesGlb
+        secondsElem.value = secondsGlb
+        millisecondsElem.value = millisecondsGlb
+    }
+
+    if (parseInt(minutesElem.value) < 12 && parseInt(secondsElem.value) > 59) {
+        alert("Seconds should not exceed to 59sec")
+        secondsElem.value = secondsGlb
+        millisecondsElem.value = millisecondsGlb
+    }
+    if (parseInt(minutesElem.value) > 12) {
+        alert("Maximum minutes for a basketball game is always 12mins")
+        minutesElem.value = minutesGlb
+        secondsElem.value = secondsGlb
+        millisecondsElem.value = millisecondsGlb
+    }
+    if (parseInt(minutesElem.value) === 12 && parseInt(secondsElem.value) > 0) {
+        alert("Maximum minutes for a basketball game is always 12mins")
+        minutesElem.value = minutesGlb
+        secondsElem.value = secondsGlb
+        millisecondsElem.value = millisecondsGlb
+    }
+
 }
