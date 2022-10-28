@@ -206,7 +206,9 @@ function qtrTimer() {
         }
         if (minutes < 0) {
             if (quarter.value >= 4 && homeScoring.textContent === awayScoring.textContent) {
+                shotClock.removeAttribute("type", "hidden")
                 clearInterval(qtrInterval)
+                clearInterval(interval)
                 alert("Overtime")
                 btnStatus.click()
                 quarter.value = "OT"
@@ -215,7 +217,9 @@ function qtrTimer() {
                 millisecondsElem.value = millisecondsGlb
                 shotClock.value = 24
             } else {
+                shotClock.removeAttribute("type", "hidden")
                 clearInterval(qtrInterval)
+                clearInterval(interval)
                 alert("End of Quarter")
                 btnStatus.click()
                 quarter.value++
@@ -239,11 +243,11 @@ function shotclocktimer() {
         shotClock.value = 24
     }
     if (minutesElem.value == 0) {
-        if (parseInt(shotClock.value) > parseInt(secondsElem.value)) {
+        if (shotClock.value === secondsElem.value || parseInt(shotClock.value) > parseInt(secondsElem.value)) {
             shotClock.value = secondsElem.value
+            shotClock.setAttribute("type", "hidden")
         }
     }
-
 }
 
 function shotclockreset(clock, game) {
